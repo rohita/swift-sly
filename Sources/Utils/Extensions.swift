@@ -15,4 +15,10 @@ extension RangeReplaceableCollection where Index: BinaryInteger, Element: Hashab
         var set = Set<Element>()
         return filter { set.insert($0).inserted }
     }
+    
+    mutating func remove(_ element: Element) {
+        if let index = self.firstIndex(of: element) {
+            self.remove(at: index)
+        }
+    }
 }
