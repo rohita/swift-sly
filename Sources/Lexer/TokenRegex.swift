@@ -19,9 +19,9 @@
 /// token object should be returned as a result. If no value is returned by the function,
 /// the token is discarded and the next token read.
 public struct TokenRegex<T: Tokenizable> {
-    public let type: T
-    public let pattern: String
-    public let overrideAction: (Token<T>) -> Token<T>?
+    let type: T
+    let pattern: String
+    let overrideAction: (Token<T>) -> Token<T>?
     
     public init(_ type: T, pattern: String, overrideAction: @escaping (Token<T>) -> Token<T>? = {$0}) {
         self.type = type

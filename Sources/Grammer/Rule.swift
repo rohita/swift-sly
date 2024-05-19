@@ -12,14 +12,11 @@
 /// For terminals, the value is whatever was assigned to Token.value attribute in the lexer module.
 /// For non-terminals, the input value is whatever was returned by the production defined for its rule.
 public struct Rule<G : Grammar>: Hashable {
-    public let lhs : String
-    public let rhs : [String]
-
-    /// The production return a value that going to be attached to LHS non-terminal.
-    /// This is how values propagate within the grammar.
-    public let production: ([SymbolValue<G>]) -> G.Output
+    let lhs : String
+    let rhs : [String]
+    let production: ([SymbolValue<G>]) -> G.Output
     
-    public init(lhs: String, rhs: [String]) {
+    init(lhs: String, rhs: [String]) {
         self.lhs = lhs
         self.rhs = rhs
         self.production = (\.first!.nonTermValue!)

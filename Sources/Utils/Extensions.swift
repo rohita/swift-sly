@@ -9,3 +9,10 @@ extension String {
         self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
+
+extension RangeReplaceableCollection where Index: BinaryInteger, Element: Hashable {
+    func dedupe() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
+    }
+}

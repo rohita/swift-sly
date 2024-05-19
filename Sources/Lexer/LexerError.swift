@@ -1,3 +1,3 @@
-enum ParserError: Error {
+enum LexerError: Error {
     case unrecognizedToken(String)
 }
