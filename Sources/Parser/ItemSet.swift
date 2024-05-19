@@ -23,3 +23,13 @@ struct ItemSet<G: Grammar>: Equatable {
         lhs.items == rhs.items
     }
 }
+
+extension ItemSet: CustomDebugStringConvertible {
+    var debugDescription: String {
+        var sb = ""
+        for item in items {
+            sb.append("\(item)\n")
+        }
+        return sb
+    }
+}
