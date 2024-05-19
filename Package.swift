@@ -4,20 +4,21 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-sly",
+    name: "SwiftSly",
+    platforms: [.macOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "swift-sly",
-            targets: ["swift-sly"]),
+            name: "SwiftSly",
+            targets: ["SwiftSly"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "swift-sly"),
+            name: "SwiftSly"),
         .testTarget(
-            name: "swift-slyTests",
-            dependencies: ["swift-sly"]),
+            name: "SwiftSlyTests",
+            dependencies: ["SwiftSly"]),
     ]
 )
