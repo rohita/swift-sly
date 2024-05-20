@@ -8,15 +8,15 @@ Here are all the resources I referred to in building this library in those two m
 ### Books 
 * The "Dragon Book": Compilers: Principles, Techniques, and Tools (Aho, Sethi, Ullman)
   
-### Courses
+### CS Courses
 * http://www.cs.umsl.edu/~janikow/cs4280/bnf.pdf
 * https://pages.cs.wisc.edu/~loris/cs536/readings/LR.html
 * https://groups.seas.harvard.edu/courses/cs153/2018fa/lectures/Lec06-LR-Parsing.pdf
  
 ### Videos
-* Good Overview: https://www.youtube.com/watch?v=ox904ID0Mvs&ab_channel=GeeksforGeeksGATECSE%7CDataScienceandAI
-* Part 1: https://www.youtube.com/watch?v=SyTXugfG9nw&ab_channel=GeeksforGeeksGATECSE%7CDataScienceandAI
-* Part 2: https://www.youtube.com/watch?v=0rUJvQ3-GwI&t=1873s&ab_channel=GeeksforGeeksGATECSE%7CDataScienceandAI
+* Good Overview: https://www.youtube.com/watch?v=ox904ID0Mvs
+* Part 1: https://www.youtube.com/watch?v=SyTXugfG9nw
+* Part 2: https://www.youtube.com/watch?v=0rUJvQ3-GwI
  
 ### Wiki
 * https://en.wikipedia.org/wiki/LR_parser
@@ -33,6 +33,7 @@ Here are all the resources I referred to in building this library in those two m
   * https://www.geeksforgeeks.org/compiler-design-slr1-parser-using-python/
 
 ### Github
+* https://github.com/dabeaz/sly/
 * https://github.com/AnarchoSystems/LRParser
 * https://github.com/matthewcheok/Kaleidoscope/tree/master
-* https://github.com/dabeaz/sly/
+
