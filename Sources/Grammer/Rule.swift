@@ -16,22 +16,16 @@ public struct Rule<G : Grammar>: Hashable {
     let rhs : [String]
     let production: ([SymbolValue<G>]) -> G.Output
     
-    init(lhs: String, rhs: [String]) {
+    init(lhs: String, rhs: [String], production: @escaping ([SymbolValue<G>]) -> G.Output) {
         self.lhs = lhs
         self.rhs = rhs
-        self.production = (\.first!.nonTermValue!)
-    }
-    
-    public init(_ rule: String, production: @escaping ([SymbolValue<G>]) -> G.Output = (\.first!.nonTermValue!)) {
-        let k = rule.split("->") // split LHS from RHS
-        self.lhs = k[0].strip()
-        let rhsSymbols = k[1].strip()
-        self.rhs = rhsSymbols.split()
         self.production = production
     }
     
-    // TODO: init with no production, but default production is AST
-    
+    public init(_ rule: String, production: @escaping ([SymbolValue<G>]) -> G.Output) {
+        let splitRule = Self.splitRule(rule)
+        self.init(lhs: splitRule.lhs, rhs: splitRule.rhs, production: production)
+    }
     
     public static func == (lhs: Rule<G>, rhs: Rule<G>) -> Bool {
         lhs.lhs == rhs.lhs && lhs.rhs == rhs.rhs
@@ -40,6 +34,35 @@ public struct Rule<G : Grammar>: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(lhs)
         hasher.combine(rhs)
+    }
+    
+    static func splitRule(_ rule: String) -> (lhs: String, rhs: [String]) {
+        let k = rule.split("->") // split LHS from RHS
+        let lhs = k[0].strip()
+        let rhsSymbols = k[1].strip()
+        let rhs = rhsSymbols.split()
+        return (lhs, rhs)
+    }
+}
+
+extension Rule where G.Output: AbstractSyntaxTree {
+    /// Init with no production, defaults to AST
+    public init(_ rule: String) {
+        let splitRule = Self.splitRule(rule)
+        
+        let astProduction: ([SymbolValue<G>]) -> NonTerminalNode = { p in
+            var children: [AbstractSyntaxTree] = []
+            for (i, sym) in p.enumerated() {
+                if let term = sym.termValue {
+                    children.append(TerminalNode(symbolName: splitRule.rhs[i], value: term))
+                } else if let nonTerm = sym.nonTermValue {
+                    children.append(NonTerminalNode(symbolName: splitRule.rhs[i], children: [nonTerm] as! [any AbstractSyntaxTree]))
+                }
+            }
+            return NonTerminalNode(symbolName: splitRule.lhs, children: children)
+        }
+        
+        self.init(lhs: splitRule.lhs, rhs: splitRule.rhs, production: astProduction as! ([SymbolValue<G>]) -> G.Output)
     }
 }
 

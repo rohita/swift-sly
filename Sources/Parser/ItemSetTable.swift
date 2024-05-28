@@ -6,7 +6,7 @@ struct ItemSetTable<G: Grammar> {
     var gotoTable: [Int: [String: Int]]
     
     init() {
-        let augmentedRule = Rule<G>(lhs: G.startSymbol + "'", rhs: [G.startSymbol])
+        let augmentedRule = Rule<G>(lhs: G.startSymbol + "'", rhs: [G.startSymbol], production: (\.first!.nonTermValue!))
         
         self.allRulesList = [augmentedRule] + G.rules
         self.states = [:]

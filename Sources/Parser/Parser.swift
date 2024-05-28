@@ -5,40 +5,6 @@
 /// generally shifted onto the stack. If the top of the stack contains a valid right-hand-side of a grammar rule,
 /// it is usually “reduced” and the symbols replaced with the symbol on the left-hand-side. When this reduction occurs,
 /// the appropriate action is triggered (if defined).
-///
-/// ### LR Parser Algorithm
-/// ```
-///   push initial state s0
-///   token = scan()
-///   do forever
-///     t = top-of-stack (state) symbol
-///     switch action[t, token] {
-///
-///        # A shift action means to push the current token onto the stack.
-///        # In fact, we actually push a state symbol onto the stack. Each
-///        # "shift" action in the action table includes the state to be pushed.
-///        case shift s:
-///            push(s)
-///            token = scan()
-///
-///        # When we reduce using the grammar rule A → alpha, we pop alpha off
-///        # of the stack. If alpha contains N symbols, we pop N
-///        # states off of the stack. We then use the goto table to know what to push:
-///        # the goto table is indexed by state symbol t and nonterminal A, where t
-///        # is the state symbol that is on top of the stack after popping N times.
-///        case reduce by A → alpha:
-///            for i = 1 to length(alpha) do pop() end
-///            t = top-of-stack symbol
-///            push(goto[t, A])
-///
-///        case accept:
-///            return( SUCCESS )
-///        case error:
-///            call the error handler
-///            return( FAILURE )
-///     }
-///   end do
-/// ```
 public struct Parser<G : Grammar> {
     /// The parser's stack consists of:
     /// - Value:  For terminals, the value is whatever was assigned to Token.value attribute in the lexer module.
@@ -60,7 +26,41 @@ public struct Parser<G : Grammar> {
     }
     
     /// Parses the input tokens that are coming from the Lexer
-    public func parse(tokens: [Token<G.TokenTypes>]) throws -> G.Output? {
+    ///
+    /// ### LR Parser Algorithm
+    /// ```
+    ///   push initial state s0
+    ///   token = scan()
+    ///   do forever
+    ///     t = top-of-stack (state) symbol
+    ///     switch action[t, token] {
+    ///
+    ///        # A shift action means to push the current token onto the stack.
+    ///        # In fact, we actually push a state symbol onto the stack. Each
+    ///        # "shift" action in the action table includes the state to be pushed.
+    ///        case shift s:
+    ///            push(s)
+    ///            token = scan()
+    ///
+    ///        # When we reduce using the grammar rule A → alpha, we pop alpha off
+    ///        # of the stack. If alpha contains N symbols, we pop N
+    ///        # states off of the stack. We then use the goto table to know what to push:
+    ///        # the goto table is indexed by state symbol t and nonterminal A, where t
+    ///        # is the state symbol that is on top of the stack after popping N times.
+    ///        case reduce by A → alpha:
+    ///            for i = 1 to length(alpha) do pop() end
+    ///            t = top-of-stack symbol
+    ///            push(goto[t, A])
+    ///
+    ///        case accept:
+    ///            return( SUCCESS )
+    ///        case error:
+    ///            call the error handler
+    ///            return( FAILURE )
+    ///     }
+    ///   end do
+    /// ```
+    public func parse(tokens: [Token<G.TokenTypes>]) throws -> G.Output {
         var iterator = tokens.makeIterator()
         var current = iterator.next()
         var stateStack = Stack<StackItem>()
@@ -95,6 +95,7 @@ public struct Parser<G : Grammar> {
                 for _ in rule.rhs {
                     input.insert(stateStack.pop()!.value, at: 0)
                 }
+                
                 let output = rule.production(input)
                 
                 guard let stateAfter = stateStack.peek() else {
@@ -115,7 +116,7 @@ public struct Parser<G : Grammar> {
         }
         
         guard let next = stateStack.pop(), case .nonTerm(let finalOutput) = next.value else {
-            return nil
+            throw ParserError<G>.outputIsNil
         }
         
         return finalOutput

@@ -10,7 +10,8 @@ final class LexerTests: XCTestCase {
         let expected: [Token<CodingLanguageLexer.TokenTypes>] =
         [Token(.DEF, value: "def"), Token(.ID, value: "foo"),
          Token("("), Token(.ID, value: "x"), Token(","), Token(.ID, value: "y"), Token(")"),
-         Token(.ID, value: "x"), Token("+"), Token(.ID, value: "y"), Token("*"), Token(.NUM, value: "2")]
+         Token(.ID, value: "x"), Token(.OP, value: "+"), Token(.ID, value: "y"), 
+         Token(.OP, value: "*"), Token(.NUM, value: "2")]
         
         XCTAssertEqual(expected, tokens)
     }
