@@ -94,14 +94,14 @@ There are many more examples in the `Tests` folders:
 * [1+1 example from Wikipedia](https://github.com/rohita/swift-sly/blob/main/Tests/Examples/WikipediaExample.swift)
 
 ## References
-It took many months reading about lexers, parsers, compilers and tinkering with code, before I could get this libary working. 
+It took many months of reading about lexers, parsers, compilers and tinkering with code, before I could get this libary working. 
 Below are all the resources I referred to in building this library in those months. 
 
 #### Inspiration
 * https://sly.readthedocs.io/en/latest/sly.html
   
 #### Books 
-* The "Dragon Book": Compilers: Principles, Techniques, and Tools (Aho, Sethi, Ullman)
+* [The "Dragon Book"](https://www.amazon.com/Compilers-Principles-Techniques-Tools-2nd/dp/0321486811): Compilers: Principles, Techniques, and Tools (Aho, Sethi, Ullman)
   
 #### CS Courses
 * http://www.cs.umsl.edu/~janikow/cs4280/bnf.pdf
