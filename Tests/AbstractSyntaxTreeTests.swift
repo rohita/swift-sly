@@ -2,17 +2,22 @@ import XCTest
 import SwiftSly
 
 final class AbstractSyntaxTreeTests: XCTestCase {
-    func testCodingParser() throws {
-        let charStream = "x + y * 2 + (4 + 5) / 3"
+    func testCodingParserDef() throws {
+        let charStream = "def sum(x, y){ x+y }"
         let lexer = CodingLanguageLexer()
         let tokens = try lexer.tokenize(charStream)
-        print(tokens)
-        
         let parser = Parser<CodingLanguageRules>.SLR1()
-        print(parser)
-        
         let ast = try parser.parse(tokens: tokens)
-        ast.print()
+        print(ast)
+    }
+    
+    func testCodingParserCall() throws {
+        let charStream = "sum(4, 3)"
+        let lexer = CodingLanguageLexer()
+        let tokens = try lexer.tokenize(charStream)
+        let parser = Parser<CodingLanguageRules>.SLR1()
+        let ast = try parser.parse(tokens: tokens)
+        print(ast)
     }
     
     func testDragonBookExample() throws {
