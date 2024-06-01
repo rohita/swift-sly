@@ -6,7 +6,8 @@ the [Python's SLY project](https://sly.readthedocs.io/en/latest/index.html).
 Parsing is currently based on the SLR(1) algorithm. I am working on LALR(1) which is coming soon. 
 
 ## Documentation
-For detailed documenttion please see the [wiki](https://github.com/rohita/swift-sly/wiki). 
+For detailed documention please see the [wiki](https://github.com/rohita/swift-sly/wiki). But to get started quickly, 
+see an example below. 
 
 ## An Example
 Suppose you wanted to parse simple arithmetic expressions and you have the 
@@ -30,14 +31,18 @@ Here’s what it looks like to write a parser that can evaluate the above gramme
 ```swift
 import SwiftSly
 
-final class CalcLexer: Lexer {
-    enum TokenTypes: String, Tokenizable {
-        case NUMBER
+final class CalcLexer: Lexer {                 // Define a class which conforms to the 'Lexer' protocol
+
+    enum TokenTypes: String, Tokenizable {     // Define all of the possible token types that can be 
+        case NUMBER                            // produced by the lexer
     }
-    
-    static var ignore = "[ \t\n]"
-    static var literals = ["+", "-", "*", "/", "(", ")" ]
-    static var tokenRules = [
+
+    static var ignore = "[ \t\n]"              // Define any ignored characters between tokens
+
+    static var literals = ["+", "-", "*", "/", "(", ")" ] // Define any single character literals that are 
+                                                          // returned 'as is' when encountered by the lexer
+
+    static var tokenRules = [                  // Define regular expression rules for each of the tokens
         TokenRegex(TokenTypes.NUMBER, pattern: "\\d+"),
     ]
 }
