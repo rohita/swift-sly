@@ -31,18 +31,22 @@ Here’s what it looks like to write a parser that can evaluate the above gramme
 ```swift
 import SwiftSly
 
-final class CalcLexer: Lexer {                 // Define a class which conforms to the 'Lexer' protocol
+// Define a class which conforms to the 'Lexer' protocol
+final class CalcLexer: Lexer {                 
 
-    enum TokenTypes: String, Tokenizable {     // Define all of the possible token types that can be 
-        case NUMBER                            // produced by the lexer
+    // Define all of the possible token types that can be produced by the lexer
+    enum TokenTypes: String, Tokenizable {      
+        case NUMBER                          
     }
 
-    static var ignore = "[ \t\n]"              // Define any ignored characters between tokens
+    // Define any ignored characters between tokens
+    static var ignore = "[ \t\n]"              
 
-    static var literals = ["+", "-", "*", "/", "(", ")" ] // Define any single character literals that are 
-                                                          // returned 'as is' when encountered by the lexer
+    // Define any single character literals that are returned 'as is' when encountered by the lexer
+    static var literals = ["+", "-", "*", "/", "(", ")" ] 
 
-    static var tokenRules = [                  // Define regular expression rules for each of the tokens
+    // Define regular expression rules for each of the tokens
+    static var tokenRules = [                  
         TokenRegex(TokenTypes.NUMBER, pattern: "\\d+"),
     ]
 }
