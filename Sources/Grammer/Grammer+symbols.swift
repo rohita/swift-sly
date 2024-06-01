@@ -10,4 +10,8 @@ extension Grammar {
     static var nonTerminals: [String] {
         rules.map(\.lhs).dedupe()
     }
+    
+    public static func SLR1() -> Parser<Self> {
+        Parser<Self>.SLR1()
+    }
 }

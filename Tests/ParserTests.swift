@@ -4,13 +4,22 @@ import SwiftSly
 final class ParserTests: XCTestCase {
     func testTG2() throws {
         let lexer = TG2Lexer()
-        let parser = Parser<TG2Rules>.SLR1()
+        let parser = TG2Rules.SLR1()
         let tokens = try lexer.tokenize("1 + 1 * 1 + 0")
         XCTAssertEqual(2, try parser.parse(tokens: tokens))
     }
     
+    func testSlyCalc() throws {
+        let lexer = CalcLexer()
+        let tokens = try lexer.tokenize("4 + 3 * 2 + (5 - 1) / 2")
+        let parser = CalcParser.SLR1()
+        let result = try parser.parse(tokens: tokens)
+        XCTAssertEqual(12, result)
+    }
+
+    
     let lexer1 = CharacterSetLexer()
-    let parser1 = Parser<CharacterSetRules>.SLR1()
+    let parser1 = CharacterSetRules.SLR1()
     
     func testGrammerLexerRange() throws {
         let expected: [Character] = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
