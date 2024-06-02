@@ -1,4 +1,4 @@
-/// The Gramer specifies the syntax of the language to be parsed.
+/// The Gramar specifies the syntax of the language to be parsed.
 ///
 /// The syntax is defined by a list of grammar rules. A rule is defined by a string of the form 
 /// ```
@@ -29,12 +29,12 @@
 /// }
 /// ```
 public protocol Grammar {
-    /// The final output type that the Grammer produces
+    /// The final output type that the Grammar produces
     associatedtype Output
     
     /// Lexer token types
     associatedtype TokenTypes: Tokenizable
 
-    /// List of grammer rules
+    /// List of grammar rules
     static var rules: [Rule<Self>] { get }
 }
