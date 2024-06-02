@@ -3,7 +3,7 @@ import XCTest
 
 final class ItemSetTableTests: XCTestCase {
     
-    func testPrintGrammer() throws {
+    func testPrintGrammar() throws {
         for rule in DragonBookGrammar.rules {
             print("\(rule)")
         }

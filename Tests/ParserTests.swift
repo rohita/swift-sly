@@ -13,6 +13,7 @@ final class ParserTests: XCTestCase {
         let lexer = CalcLexer()
         let tokens = try lexer.tokenize("4 + 3 * 2 + (5 - 1) / 2")
         let parser = CalcParser.SLR1()
+        print(parser)
         let result = try parser.parse(tokens: tokens)
         XCTAssertEqual(12, result)
     }
@@ -21,7 +22,7 @@ final class ParserTests: XCTestCase {
     let lexer1 = CharacterSetLexer()
     let parser1 = CharacterSetRules.SLR1()
     
-    func testGrammerLexerRange() throws {
+    func testGrammarLexerRange() throws {
         let expected: [Character] = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
                                      "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
                                      "W", "X", "Y", "Z"]
@@ -29,7 +30,7 @@ final class ParserTests: XCTestCase {
         XCTAssertEqual(expected, parsed)
     }
     
-    func testGrammerLexerChar() throws {
+    func testGrammarLexerChar() throws {
         let parsed = try parser1.parse(tokens: lexer1.tokenize("AZ"))
         XCTAssertEqual(["A", "Z"], parsed)
     }
@@ -39,24 +40,22 @@ final class ParserTests: XCTestCase {
         XCTAssertEqual(["a"], parsed)
     }
     
-    func testGrammerLexerDigit() throws {
+    func testGrammarLexerDigit() throws {
         let expected: [Character] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
         let parsed = try parser1.parse(tokens: lexer1.tokenize("[:digit:]"))
         XCTAssertEqual(expected, parsed)
     }
     
-    func testGrammerLexerDigitPlusRange() throws {
+    func testGrammarLexerDigitPlusRange() throws {
         let expected: [Character] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d"]
         let parsed = try parser1.parse(tokens: lexer1.tokenize("[:digit:]a-d"))
         XCTAssertEqual(expected, parsed)
     }
     
-    func testGrammerLexerTwoClasses() throws {
+    func testGrammarLexerTwoClasses() throws {
         let expected: [Character] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", " ", "\t"]
         let tokens = try lexer1.tokenize("[:digit:][:blank:]")
         let parsed = try parser1.parse(tokens: tokens)
         XCTAssertEqual(expected, parsed)
     }
 }
-
-

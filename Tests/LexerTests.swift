@@ -16,7 +16,7 @@ final class LexerTests: XCTestCase {
         XCTAssertEqual(expected, tokens)
     }
     
-    func testTestGrammer2() throws {
+    func testTestGrammar2() throws {
         let expected: [Token<TG2Lexer.TokenTypes>] = [Token("1"), Token("+"), Token("1"), Token("*"), Token("0")]
         let charStream = "1 + 1 * 0"
         let lexer = TG2Lexer()

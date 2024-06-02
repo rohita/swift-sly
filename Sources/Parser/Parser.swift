@@ -77,8 +77,8 @@ public struct Parser<G : Grammar> {
             // This right here is when Lexer tokens map to Parser terminals.
             // current.name is terminal symbol and current.value is the symbol value
             // The current.name has to be part of Gammar rules.
-            guard let action = actionTable[stateBefore.state]?[current?.name ?? "$"] else {
-                throw ParserError<G>.noAction(token: current?.name, state: stateBefore.state)
+            guard let action = actionTable[stateBefore.state]?[current?.type ?? "$"] else {
+                throw ParserError<G>.noAction(token: current?.type, state: stateBefore.state)
             }
             
             switch action {

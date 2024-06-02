@@ -16,34 +16,34 @@
 /// static var literals = ["(", ")", ",", "+", "*"]
 /// ```
 ///
-/// And so the tokens identified by the lexer would be list of (name,value) pairs:
+/// And so the tokens identified by the lexer would be list of (type,value) pairs:
 /// ```swift
 /// [('DEF','def'), ('ID','foo'), ('(','('), 
 ///  ('ID','x'), (',',','), ('ID','y'),
 ///  (')',')'), ('ID','x'), ('+','+'),
 ///  ('ID','y'), ('*','*'), ('NUM','2')]
 /// ```
-/// Token name can be `Tokenizable` or literals. For literals, the name and value
+/// Token type can be `Tokenizable` or literals. For literals, the type and value
 /// of the token is same.
 public struct Token<T: Tokenizable>: Hashable {
-    public let name: String
+    public let type: String
     public let value: String
     public let isLiteral: Bool
     
     public init(_ type: T, value: String) {
-        self.name = type.rawValue
+        self.type = type.rawValue
         self.value = value
         self.isLiteral = false
     }
     
     public init(_ type: T) {
-        self.name = type.rawValue
+        self.type = type.rawValue
         self.value = type.rawValue
         self.isLiteral = false
     }
     
     public init(_ literal: String) {
-        self.name = literal
+        self.type = literal
         self.value = literal
         self.isLiteral = true
     }
@@ -51,6 +51,6 @@ public struct Token<T: Tokenizable>: Hashable {
 
 extension Token: CustomDebugStringConvertible {
     public var debugDescription: String {
-        isLiteral ? "Literal(\"\(value)\")" : "\(name)(\"\(value)\")"
+        "\ntype='\(type)', value='\(value)'"
     }
 }
