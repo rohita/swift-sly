@@ -1,8 +1,5 @@
 # SwiftSly
-SwiftSly is used for parsing a context free grammer in Swift. 
-
-SwiftSly is inspired from and is a 100% Swift implementation of 
-the [Python's SLY project](https://sly.readthedocs.io/en/latest/index.html). 
+**SwiftSly** is library for writing parsers and compilers in Swift. This library is heavily inspired from the [Python's SLY project](https://sly.readthedocs.io/en/latest/index.html). 
 Parsing is currently based on the SLR(1) algorithm. I am working on LALR(1) which is coming soon. 
 
 ## Documentation
