@@ -30,7 +30,7 @@ final class CodingLanguageLexer: Lexer {
     ]
 }
 
-final class CodingLanguageRules: Grammar {
+final class CodingLanguageRules: Parser {
     typealias Output = ExprNode
     typealias TokenTypes = CodingLanguageLexer.TokenTypes
     

@@ -18,7 +18,7 @@ final class DragonBookLexer: Lexer {
     ]
 }
 
-final class DragonBookGrammar: Grammar {
+final class DragonBookGrammar: Parser {
     typealias TokenTypes = DragonBookLexer.TokenTypes
     
     static var rules: [Rule<DragonBookGrammar>] {

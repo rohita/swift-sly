@@ -1,4 +1,4 @@
-struct ItemSet<G: Grammar>: Equatable {
+struct ItemSet<G: Parser>: Equatable {
     let items: [Item<G>]
     var transitions: [String: Int]
     

@@ -3,7 +3,7 @@
 ///
 /// For terminals, the value is the string that was assigned to Token.value attribute in the lexer module.
 /// The rule production should know how to convert string to G.Output
-public enum SymbolValue<G: Grammar> {
+public enum SymbolValue<G: Parser> {
     case term(String)
     case nonTerm(G.Output)
     case eof

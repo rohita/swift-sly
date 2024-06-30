@@ -5,7 +5,7 @@
 /// generally shifted onto the stack. If the top of the stack contains a valid right-hand-side of a grammar rule,
 /// it is usually “reduced” and the symbols replaced with the symbol on the left-hand-side. When this reduction occurs,
 /// the appropriate action is triggered (if defined).
-struct ParserImpl<G : Grammar> {
+struct ParserImpl<G : Parser> {
     /// The parser's stack consists of:
     /// - Value:  For terminals, the value is whatever was assigned to Token.value attribute in the lexer module.
     ///           For non-terminals, the value is whatever was returned by the production defined for its rule.

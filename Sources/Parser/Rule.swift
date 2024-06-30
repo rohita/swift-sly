@@ -11,7 +11,7 @@
 /// ```
 /// For terminals, the value is whatever was assigned to Token.value attribute in the lexer module.
 /// For non-terminals, the input value is whatever was returned by the production defined for its rule.
-public struct Rule<G : Grammar>: Hashable {
+public struct Rule<G : Parser>: Hashable {
     let lhs : String
     let rhs : [String]
     let production: ([SymbolValue<G>]) -> G.Output

@@ -1,4 +1,4 @@
-struct Item<G: Grammar>: Hashable {
+struct Item<G: Parser>: Hashable {
     var rule: Rule<G>
     private let dotIndex : Int // represents the next position to parse
     

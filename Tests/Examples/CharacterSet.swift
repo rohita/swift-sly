@@ -28,7 +28,7 @@ final class CharacterSetLexer: Lexer {
     ]
 }
 
-final class CharacterSetRules: Grammar {
+final class CharacterSetRules: Parser {
     typealias Output = [Character]
     typealias TokenTypes = CharacterSetLexer.TokenTypes
     static var rules: [Rule<CharacterSetRules>] = [

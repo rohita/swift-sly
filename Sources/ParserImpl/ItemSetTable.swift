@@ -1,4 +1,4 @@
-struct ItemSetTable<G: Grammar> {
+struct ItemSetTable<G: Parser> {
     let EPSILON = "#"
     let allRulesList: [Rule<G>]
     var states: [Int: ItemSet<G>]

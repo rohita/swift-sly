@@ -13,7 +13,7 @@ final class TG2Lexer: Lexer {
     static var ignore = "[ \t\n]"
 }
 
-final class TG2Rules: Grammar {
+final class TG2Rules: Parser {
     typealias Output = Int
     typealias TokenTypes = TG2Lexer.TokenTypes
     

@@ -24,7 +24,7 @@ public struct NonTerminalNode: AbstractSyntaxTree {
 }
 
 /// Default Output is AST
-public extension Grammar {
+public extension Parser {
     typealias Output = NonTerminalNode
 }
 

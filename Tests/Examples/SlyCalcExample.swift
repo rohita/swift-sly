@@ -28,7 +28,7 @@ final class CalcLexer: Lexer {
     ]
 }
 
-final class CalcParser: Grammar {
+final class CalcParser: Parser {
     typealias Output = Int
     typealias TokenTypes = CalcLexer.TokenTypes
     static var rules: [Rule<CalcParser>] = [
