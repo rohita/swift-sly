@@ -2,7 +2,7 @@
 **SwiftSly** is library for writing parsers and compilers in Swift. This library is heavily inspired from the [Python's SLY project](https://sly.readthedocs.io/en/latest/index.html). 
 Parsing is currently based on the SLR(1) algorithm. I am working on LALR(1) which is coming soon. 
 
-## Documentation
+## Documentation Wiki
 For detailed documention please see the [wiki](https://github.com/rohita/swift-sly/wiki). But to get started quickly, 
 see an example below. 
 
@@ -48,10 +48,10 @@ final class CalcLexer: Lexer {
     ]
 }
 
-// Define a class which conforms to the 'Grammar' protocol
-final class CalcParser: Grammar {
+// Define a class which conforms to the 'Parser' protocol
+final class CalcParser: Parser {
 
-    // Define the output type that the Grammar produces
+    // Define the output type that the Parser produces
     typealias Output = Int
 
     // Link to the Lexer token types
@@ -92,7 +92,7 @@ Here's how we can use the above to parse an arithmetic expression:
 ```swift
 let lexer = CalcLexer()
 let tokens = try lexer.tokenize("4 + 3 * 2 + (5 - 1) / 2")
-let parser = CalcParser.SLR1()
+let parser = CalcParser()
 let result = try parser.parse(tokens: tokens)
 print(result)
 
