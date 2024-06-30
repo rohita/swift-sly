@@ -5,7 +5,7 @@
 /// generally shifted onto the stack. If the top of the stack contains a valid right-hand-side of a grammar rule,
 /// it is usually “reduced” and the symbols replaced with the symbol on the left-hand-side. When this reduction occurs,
 /// the appropriate action is triggered (if defined).
-public struct Parser<G : Grammar> {
+struct ParserImpl<G : Grammar> {
     /// The parser's stack consists of:
     /// - Value:  For terminals, the value is whatever was assigned to Token.value attribute in the lexer module.
     ///           For non-terminals, the value is whatever was returned by the production defined for its rule.
@@ -60,7 +60,7 @@ public struct Parser<G : Grammar> {
     ///     }
     ///   end do
     /// ```
-    public func parse(tokens: [Token<G.TokenTypes>]) throws -> G.Output {
+    func parse(tokens: [Token<G.TokenTypes>]) throws -> G.Output {
         var iterator = tokens.makeIterator()
         var current = iterator.next()
         var stateStack = Stack<StackItem>()
@@ -71,14 +71,14 @@ public struct Parser<G : Grammar> {
         while true {
             
             guard let stateBefore = stateStack.peek() else {
-                throw ParserError<G>.undefinedState
+                throw ParserError.undefinedState
             }
             
             // This right here is when Lexer tokens map to Parser terminals.
             // current.name is terminal symbol and current.value is the symbol value
             // The current.name has to be part of Gammar rules.
             guard let action = actionTable[stateBefore.state]?[current?.type ?? "$"] else {
-                throw ParserError<G>.noAction(token: current?.type, state: stateBefore.state)
+                throw ParserError.noAction(token: current?.type, state: stateBefore.state)
             }
             
             switch action {
@@ -99,11 +99,11 @@ public struct Parser<G : Grammar> {
                 let output = rule.production(input)
                 
                 guard let stateAfter = stateStack.peek() else {
-                    throw ParserError<G>.undefinedState
+                    throw ParserError.undefinedState
                 }
                 
                 guard let nextState = gotoTable[stateAfter.state]?[rule.lhs] else {
-                    throw ParserError<G>.noGoto(nonTerm: rule.lhs, state: stateAfter.state)
+                    throw ParserError.noGoto(nonTerm: rule.lhs, state: stateAfter.state)
                 }
                 
                 let nextStackItem = StackItem(value: .nonTerm(output), state: nextState)
@@ -116,7 +116,7 @@ public struct Parser<G : Grammar> {
         }
         
         guard let next = stateStack.pop(), case .nonTerm(let finalOutput) = next.value else {
-            throw ParserError<G>.outputIsNil
+            throw ParserError.outputIsNil
         }
         
         return finalOutput

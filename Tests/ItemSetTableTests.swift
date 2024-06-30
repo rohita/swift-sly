@@ -35,7 +35,7 @@ final class ItemSetTableTests: XCTestCase {
         }
         
         p.createParseTable()
-        let parser = Parser(actions: p.actionTable, gotos: p.gotoTable)
+        let parser = ParserImpl(actions: p.actionTable, gotos: p.gotoTable)
         
         print("\nSLR(1) parsing table:\n")
         print(parser)

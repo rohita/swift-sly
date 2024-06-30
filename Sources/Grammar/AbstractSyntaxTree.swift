@@ -1,7 +1,6 @@
 public protocol AbstractSyntaxTree: CustomDebugStringConvertible {
     var symbolName: String { get }
     var isLeaf: Bool { get }
-    func print()
 }
 
 public struct TerminalNode: AbstractSyntaxTree {
@@ -30,7 +29,7 @@ public extension Grammar {
 }
 
 extension AbstractSyntaxTree {
-    public func print() {
+    public func printAST() {
         var sb = "";
         buildPrintString(stringBuilder: &sb, padding: "", pointer: "", node: self, hasRightSibling: false);
         Swift.print(sb)

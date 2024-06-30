@@ -6,7 +6,7 @@ final class AbstractSyntaxTreeTests: XCTestCase {
         let charStream = "def sum(x, y){ x+y }"
         let lexer = CodingLanguageLexer()
         let tokens = try lexer.tokenize(charStream)
-        let parser = CodingLanguageRules.SLR1()
+        let parser = CodingLanguageRules()
         let ast = try parser.parse(tokens: tokens)
         print(ast)
     }
@@ -15,7 +15,7 @@ final class AbstractSyntaxTreeTests: XCTestCase {
         let charStream = "sum(4, 3)"
         let lexer = CodingLanguageLexer()
         let tokens = try lexer.tokenize(charStream)
-        let parser = CodingLanguageRules.SLR1()
+        let parser = CodingLanguageRules()
         let ast = try parser.parse(tokens: tokens)
         print(ast)
     }
@@ -24,8 +24,8 @@ final class AbstractSyntaxTreeTests: XCTestCase {
         let charStream = "x + y * z + (a + b) * c"
         let lexer = DragonBookLexer()
         let tokens = try lexer.tokenize(charStream)
-        let parser = DragonBookGrammar.SLR1()
+        let parser = DragonBookGrammar()
         let ast = try parser.parse(tokens: tokens)
-        ast.print()
+        ast.printAST()
     }
 }
