@@ -35,12 +35,11 @@ final class ItemSetTableTests: XCTestCase {
         }
         
         p.createParseTable()
-        let parser = ParserImpl(actions: p.actionTable, gotos: p.gotoTable)
         
         print("\nSLR(1) parsing table:\n")
-        print(parser)
-        XCTAssertEqual(parser.actionTable, expectedActionTable(r: p.allRulesList))
-        XCTAssertEqual(parser.gotoTable, expectedGotoTable())
+        print(p)
+        XCTAssertEqual(p.actionTable, expectedActionTable(r: p.allRulesList))
+        XCTAssertEqual(p.gotoTable, expectedGotoTable())
     }
     
     func expectedActionTable(r: [Rule<DragonBookGrammar>]) -> [Int: [String: Action<DragonBookGrammar>]] {

@@ -138,7 +138,6 @@ struct ItemSetTable<G: Parser> {
         return solset
     }
     
-    
     // Set of terminals that can appear immediately
     // after a given non-terminal in a grammar.
     private func first(rhs: [String]) -> [String] {

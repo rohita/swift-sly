@@ -4,6 +4,6 @@ extension ParserImpl {
         let I0 = table.computeClosure(using: [Item(rule: table.allRulesList[0])])
         table.generateStates(startingState: I0)
         table.createParseTable()
-        return ParserImpl(actions: table.actionTable, gotos: table.gotoTable)
+        return ParserImpl(parsingTable: table)
     }
 }

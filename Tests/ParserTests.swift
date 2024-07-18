@@ -12,9 +12,10 @@ final class ParserTests: XCTestCase {
     func testSlyCalc() throws {
         let lexer = CalcLexer()
         let tokens = try lexer.tokenize("4 + 3 * 2 + (5 - 1) / 2")
+        //let tokens = try lexer.tokenize("3 + 5 * ( 10 - 20 )")
         let parser = CalcParser()
         parser.printParsingTable()
-        let result = try parser.parse(tokens: tokens)
+        let result = try parser.parse(tokens: tokens, debug: true)
         XCTAssertEqual(12, result)
     }
 

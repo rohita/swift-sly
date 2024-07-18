@@ -1,6 +1,6 @@
 import Foundation
 
-extension ParserImpl: CustomDebugStringConvertible {
+extension ItemSetTable: CustomDebugStringConvertible {
     public var debugDescription: String {
         let cols = G.terminals + ["$"] + G.nonTerminals
         let columnWidth = 5

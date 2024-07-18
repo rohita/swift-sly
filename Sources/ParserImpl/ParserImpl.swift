@@ -12,63 +12,27 @@ struct ParserImpl<G : Parser> {
     /// - State: Correspond to a finite-state machine that represents the parsing process.
     typealias StackItem = (value: SymbolValue<G>, state: Int)
     
-    /// The action table is indexed by top-of-stack state and the current token, and
-    /// it tells which of the four actions to perform: **shift, reduce, accept, or reject**.
-    var actionTable: [Int: [String: Action<G>]]
+    /// The parsing table has the action table and goto table
+    /// - Action table: The action table is indexed by top-of-stack state and the current token, and
+    ///             it tells which of the four actions to perform: **shift, reduce, accept, or reject**.
+    /// - Goto table: The goto table is used during a reduce action. Gotos happen for each recognized rule.
+    var parsingTable: ItemSetTable<G>
     
-    /// The goto table is used during a reduce action.
-    /// Gotos happen for each recognized rule
-    var gotoTable: [Int: [String: Int]]
-    
-    init(actions: [Int: [String: Action<G>]], gotos: [Int: [String: Int]]) {
-        self.actionTable = actions
-        self.gotoTable = gotos
+    init(parsingTable: ItemSetTable<G>) {
+        self.parsingTable = parsingTable
     }
     
-    /// Parses the input tokens that are coming from the Lexer
-    ///
-    /// ### LR Parser Algorithm
-    /// ```
-    ///   push initial state s0
-    ///   token = scan()
-    ///   do forever
-    ///     t = top-of-stack (state) symbol
-    ///     switch action[t, token] {
-    ///
-    ///        # A shift action means to push the current token onto the stack.
-    ///        # In fact, we actually push a state symbol onto the stack. Each
-    ///        # "shift" action in the action table includes the state to be pushed.
-    ///        case shift s:
-    ///            push(s)
-    ///            token = scan()
-    ///
-    ///        # When we reduce using the grammar rule A → alpha, we pop alpha off
-    ///        # of the stack. If alpha contains N symbols, we pop N
-    ///        # states off of the stack. We then use the goto table to know what to push:
-    ///        # the goto table is indexed by state symbol t and nonterminal A, where t
-    ///        # is the state symbol that is on top of the stack after popping N times.
-    ///        case reduce by A → alpha:
-    ///            for i = 1 to length(alpha) do pop() end
-    ///            t = top-of-stack symbol
-    ///            push(goto[t, A])
-    ///
-    ///        case accept:
-    ///            return( SUCCESS )
-    ///        case error:
-    ///            call the error handler
-    ///            return( FAILURE )
-    ///     }
-    ///   end do
-    /// ```
-    func parse(tokens: [Token<G.TokenTypes>]) throws -> G.Output {
+    func parse(tokens: [Token<G.TokenTypes>], debug: Bool=false) throws -> G.Output {
         var iterator = tokens.makeIterator()
         var current = iterator.next()
         var stateStack = Stack<StackItem>()
         let endSymbol = StackItem(value: .eof, state: 0)
         stateStack.push(endSymbol)
+        var step = 1
         
     loop:
         while true {
+            var debugString = print(stateStack)
             
             guard let stateBefore = stateStack.peek() else {
                 throw ParserError.undefinedState
@@ -77,20 +41,31 @@ struct ParserImpl<G : Parser> {
             // This right here is when Lexer tokens map to Parser terminals.
             // current.name is terminal symbol and current.value is the symbol value
             // The current.name has to be part of Gammar rules.
-            guard let action = actionTable[stateBefore.state]?[current?.type ?? "$"] else {
+            guard let action = parsingTable.actionTable[stateBefore.state]?[current?.type ?? "$"] else {
                 throw ParserError.noAction(token: current?.type, state: stateBefore.state)
             }
             
+            debugString.append("    Action: ")
+            
             switch action {
                 
-                // accept input character and push new state onto stack
+                // A shift action means to push the current token onto the stack.
+                // In fact, we actually push a state symbol onto the stack. Each
+                // "shift" action in the action table includes the state to be pushed.
             case .shift(let state):
                 let nextStackItem = StackItem(value: .term(current!.value), state: state)
                 stateStack.push(nextStackItem)
+                debugString.append("Shift \(current!.value)")
                 current = iterator.next()
                 
+                // When we reduce using the grammar rule A → alpha, we pop alpha off
+                // of the stack. If alpha contains N symbols, we pop N
+                // states off of the stack. We then use the goto table to know what to push:
+                // the goto table is indexed by state symbol t and nonterminal A, where t
+                // is the state symbol that is on top of the stack after popping N times.
             case .reduce(let reduce):
                 let rule = reduce
+                debugString.append("Reduce \(rule)")
                 var input: [SymbolValue<G>] = []
                 for _ in rule.rhs {
                     input.insert(stateStack.pop()!.value, at: 0)
@@ -102,23 +77,43 @@ struct ParserImpl<G : Parser> {
                     throw ParserError.undefinedState
                 }
                 
-                guard let nextState = gotoTable[stateAfter.state]?[rule.lhs] else {
+                guard let nextState = parsingTable.gotoTable[stateAfter.state]?[rule.lhs] else {
                     throw ParserError.noGoto(nonTerm: rule.lhs, state: stateAfter.state)
                 }
                 
-                let nextStackItem = StackItem(value: .nonTerm(output), state: nextState)
+                let nextStackItem = StackItem(value: .nonTerm(rule.lhs, output), state: nextState)
                 stateStack.push(nextStackItem)
                 
             case .accept:
+                debugString.append("Accept")
+                if debug {
+                    Swift.print("\(step): \(debugString)")
+                }
                 break loop
             }
             
+            if debug {
+                Swift.print("\(step): \(debugString)")
+            }
+            step += 1
         }
         
-        guard let next = stateStack.pop(), case .nonTerm(let finalOutput) = next.value else {
+        guard let next = stateStack.pop(), case .nonTerm(_, let finalOutput) = next.value else {
             throw ParserError.outputIsNil
         }
         
         return finalOutput
     }
+    
+    func print(_ stateStack: Stack<StackItem>) -> String {
+        var sb = "Stack: "
+        for symbol in stateStack.array {
+            sb.append(symbol.value.name + " ")
+        }
+        sb.append("\n")
+        return sb
+    }
+
 }
+
+

@@ -5,7 +5,7 @@
 /// The rule production should know how to convert string to G.Output
 public enum SymbolValue<G: Parser> {
     case term(String)
-    case nonTerm(G.Output)
+    case nonTerm(String, G.Output)
     case eof
 
     public var termValue: String? {
@@ -17,8 +17,16 @@ public enum SymbolValue<G: Parser> {
     
     public var nonTermValue: G.Output? {
         switch self {
-        case .nonTerm(let output): output
+        case .nonTerm(_, let output): output
         default: nil
+        }
+    }
+    
+    public var name: String {
+        switch self {
+        case .term(let c): c
+        case .nonTerm(let lhs, let ouput): "\(lhs)(\(ouput))"
+        case .eof: ""
         }
     }
 }

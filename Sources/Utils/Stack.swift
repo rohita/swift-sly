@@ -1,5 +1,5 @@
 struct Stack<T> {
-    private var array: [T] = []
+    var array: [T] = []
 
     var isEmpty: Bool {
         array.isEmpty
