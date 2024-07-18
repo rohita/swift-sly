@@ -8,14 +8,14 @@ public enum SymbolValue<G: Parser> {
     case nonTerm(String, G.Output)
     case eof
 
-    public var termValue: String? {
+    public var termValue: String! {
         switch self {
         case .term(let c): c
         default: nil
         }
     }
     
-    public var nonTermValue: G.Output? {
+    public var nonTermValue: G.Output! {
         switch self {
         case .nonTerm(_, let output): output
         default: nil

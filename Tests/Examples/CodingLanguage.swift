@@ -36,50 +36,50 @@ final class CodingLanguageRules: Parser {
     
     static var rules: [Rule<CodingLanguageRules>] = [
         Rule("Function -> Prototype { Expression }") { p in
-            FunctionNode(prototype: p[0].nonTermValue as? PrototypeNode, body: p[2].nonTermValue!)
+            FunctionNode(prototype: p[0].nonTermValue as? PrototypeNode, body: p[2].nonTermValue)
         },
         Rule("Function -> Call") { p in
-            FunctionNode(prototype: nil, body: p[0].nonTermValue!)
+            FunctionNode(prototype: nil, body: p[0].nonTermValue)
         },
         Rule("Prototype -> DEF ID ( Arguments )") { p in
             var args: PrototypeNode! = p[3].nonTermValue as? PrototypeNode
-            return PrototypeNode(name: p[1].termValue!, argumentNames: args.argumentNames)
+            return PrototypeNode(name: p[1].termValue, argumentNames: args.argumentNames)
         },
         Rule("Arguments -> Arguments , ID") { p in
             var args: PrototypeNode! = p[0].nonTermValue as? PrototypeNode
-            return PrototypeNode(name: "", argumentNames: args.argumentNames + [p[2].termValue!])
+            return PrototypeNode(name: "", argumentNames: args.argumentNames + [p[2].termValue])
         },
         Rule("Arguments -> ID") { p in
-            PrototypeNode(name: "", argumentNames: [p[0].termValue!])
+            PrototypeNode(name: "", argumentNames: [p[0].termValue])
         },
         Rule("Expression -> PrimaryExpression OP Expression") { p in
-            BinaryOpNode(op: p[1].termValue!, lhs: p[0].nonTermValue!, rhs: p[2].nonTermValue!)
+            BinaryOpNode(op: p[1].termValue, lhs: p[0].nonTermValue, rhs: p[2].nonTermValue)
         },
         Rule("Expression -> PrimaryExpression") { p in
-            p[0].nonTermValue!
+            p[0].nonTermValue
         },
         Rule("PrimaryExpression -> Call") { p in
-            p[0].nonTermValue!
+            p[0].nonTermValue
         },
         Rule("Call -> ID ( Parameters )") { p in
             var args: CallNode! = p[2].nonTermValue as? CallNode
-            return CallNode(name: p[0].termValue!, arguments: args.arguments)
+            return CallNode(name: p[0].termValue, arguments: args.arguments)
         },
         Rule("Parameters -> Parameters , Expression") { p in
             var args: CallNode! = p[0].nonTermValue as? CallNode
-            return CallNode(name: "", arguments: args.arguments + [p[2].nonTermValue!])
+            return CallNode(name: "", arguments: args.arguments + [p[2].nonTermValue])
         },
         Rule("Parameters -> Expression") { p in
-            CallNode(name: "", arguments: [p[0].nonTermValue!])
+            CallNode(name: "", arguments: [p[0].nonTermValue])
         },
         Rule("PrimaryExpression -> ID") { p in
-            VariableNode(name: p[0].termValue!)
+            VariableNode(name: p[0].termValue)
         },
         Rule("PrimaryExpression -> NUM") { p in
-            NumberNode(value: (p[0].termValue! as NSString).floatValue)
+            NumberNode(value: (p[0].termValue as NSString).floatValue)
         },
         Rule("PrimaryExpression -> ( Expression )") { p in
-            p[1].nonTermValue!
+            p[1].nonTermValue
         },
     ]
     

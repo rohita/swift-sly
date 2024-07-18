@@ -19,13 +19,13 @@ final class TG2Rules: Parser {
     
     static var rules: [Rule<TG2Rules>] = [
         Rule("E -> E * B") { p in
-            p[0].nonTermValue! * p[2].nonTermValue!
+            p[0].nonTermValue * p[2].nonTermValue
         },
         Rule("E -> E + B") { p in
-            p[0].nonTermValue! + p[2].nonTermValue!
+            p[0].nonTermValue + p[2].nonTermValue
         },
         Rule("E -> B") { p in
-            p[0].nonTermValue!
+            p[0].nonTermValue
         },
         Rule("B -> 0") { _ in 0 },
         Rule("B -> 1") { _ in 1 }
