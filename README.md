@@ -60,28 +60,28 @@ final class CalcParser: Parser {
     // Define rules and their productions
     static var rules: [Rule<CalcParser>] = [
         Rule("expr -> expr + term") { p in
-            p[0].nonTermValue! + p[2].nonTermValue!
+            p[0].nonTermValue + p[2].nonTermValue
         },
         Rule("expr -> expr - term") { p in
-            p[0].nonTermValue! - p[2].nonTermValue!
+            p[0].nonTermValue - p[2].nonTermValue
         },
         Rule("expr -> term") { p in
-            p[0].nonTermValue!
+            p[0].nonTermValue
         },
         Rule("term -> term * factor") { p in
-            p[0].nonTermValue! * p[2].nonTermValue!
+            p[0].nonTermValue * p[2].nonTermValue
         },
         Rule("term -> term / factor") { p in
-            p[0].nonTermValue! / p[2].nonTermValue!
+            p[0].nonTermValue / p[2].nonTermValue
         },
         Rule("term -> factor") { p in
-            p[0].nonTermValue!
+            p[0].nonTermValue
         },
         Rule("factor -> NUMBER") { p in
-            Int(p[0].termValue!)!
+            Int(p[0].termValue)!
         },
         Rule("factor -> ( expr )") { p in
-            p[1].nonTermValue!
+            p[1].nonTermValue
         },
     ]
 }
