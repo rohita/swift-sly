@@ -39,8 +39,8 @@ struct ParserImpl<G : Parser> {
             }
             
             // This right here is when Lexer tokens map to Parser terminals.
-            // current.name is terminal symbol and current.value is the symbol value
-            // The current.name has to be part of Gammar rules.
+            // current.type is terminal symbol and current.value is the symbol value
+            // The current.type has to be part of Gammar rules.
             guard let action = parsingTable.actionTable[stateBefore.state]?[current?.type ?? "$"] else {
                 throw ParserError.noAction(token: current?.type, state: stateBefore.state)
             }
