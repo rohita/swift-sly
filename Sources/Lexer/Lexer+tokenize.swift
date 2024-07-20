@@ -40,7 +40,7 @@ extension Lexer {
                     tokens.append(Token(literal))
                     content = String(content.suffix(from: index))
                 } else {
-                    throw LexerError.unrecognizedToken(literal)
+                    throw ParserError.unrecognizedToken(literal)
                 }
             }
         }
